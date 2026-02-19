@@ -64,6 +64,7 @@ class TodoResponse(SQLModel):
     id: Optional[int] = Field(primary_key=True, default=None)
     text:str
     done: bool = False
+    categories:list[str] = []
 
 class TodoUpdate(SQLModel):
     text: Optional[str] = None
