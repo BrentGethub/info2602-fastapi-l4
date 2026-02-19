@@ -25,6 +25,11 @@ class RegularUser(User, table=True):
     role:str = "regular_user"
 
     todos: list['Todo'] = Relationship(back_populates="user")
+    
+class UserCreate(SQLModel):
+    username:str
+    email: EmailStr = Field(max_length=255)
+    password: str = Field(min_length=8, max_length=128)
 
 class TodoCategory(SQLModel, table=True):
     category_id: int = Field(foreign_key="category.id", primary_key=True)
@@ -51,3 +56,15 @@ class Todo(SQLModel, table=True):
     
     def get_cat_list(self):
         return ', '.join([category.text for category in self.categories])
+    
+class TodoCreate(SQLModel):
+    text:str
+
+class TodoResponse(SQLModel):
+    id: Optional[int] = Field(primary_key=True, default=None)
+    text:str
+    done: bool = False
+
+class TodoUpdate(SQLModel):
+    text: Optional[str] = None
+    done: Optional[bool] = None
